@@ -1,0 +1,14 @@
+﻿
+cd C:\PROG\aspnetcore6\BlazorSignalRChat_Fixed\BlazorSignalRChat
+
+dotnet add package Microsoft.AspNetCore.SignalR.Client
+dotnet add package Microsoft.AspNetCore.SignalR
+dotnet add package Microsoft.AspNetCore.Components.WebAssembly
+dotnet add package Microsoft.Extensions.Hosting
+dotnet add package Microsoft.AspNetCore.Builder
+
+
+dotnet add package Microsoft.AspNetCore.SignalR.Client --version 8.0.0
+dotnet add package Microsoft.AspNetCore.SignalR --version 8.0.0
+dotnet add package Microsoft.Extensions.Hosting --version 8.0.0
+dotnet add package Microsoft.AspNetCore.Components.WebAssembly --version 8.0.0

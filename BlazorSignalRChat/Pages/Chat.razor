@@ -1,0 +1,46 @@
+@using Microsoft.AspNetCore.SignalR.Client
+
+@page "/chat"
+@inject NavigationManager Navigation
+
+<h3>Blazor + SignalR Chat</h3>
+
+<ul>
+    @foreach (var msg in messages)
+    {
+        <li>@msg</li>
+    }
+</ul>
+
+<input @bind="currentMessage" placeholder="Введите сообщение..."/>
+<button @onclick="SendMessage">Отправить</button>
+
+@code {
+    private HubConnection _hubConnection;
+    private string currentMessage = string.Empty;
+    private List<string> messages = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        _hubConnection = new HubConnectionBuilder()
+            .WithUrl(Navigation.ToAbsoluteUri("/chatHub"))
+            .Build();
+
+        _hubConnection.On<string, string>("ReceiveMessage", (user, message) =>
+        {
+            messages.Add($"{user}: {message}");
+            StateHasChanged();
+        });
+
+        await _hubConnection.StartAsync();
+    }
+
+    private async Task SendMessage()
+    {
+        if (!string.IsNullOrWhiteSpace(currentMessage))
+        {
+            await _hubConnection.SendAsync("SendMessage", "User", currentMessage);
+            currentMessage = string.Empty;
+        }
+    }
+}
